@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/audiotospectrum">Convert Audio</a></li>
+            <li><a href="/spectrumtoaudio">Upload Spectrogram</a></li>
+        </ul>
+    </nav>
+
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Upload your Spectrogram:</label>
+        <input type="file" name="file" id="file">
+        <button type="submit">Convert to Audio</button>
+    </form>
+
+
+
+    
+    {% if audio_file %}
+    <a href="{{ url_for('download_file', filename=audio_file) }}">Download Reconstructed Audio</a>
+    {% endif %}
+</body>
+</html>

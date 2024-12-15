@@ -1,0 +1,10 @@
+Flask==2.1.1
+librosa==0.8.1
+matplotlib==3.4.3
+numpy==1.21.2
+pyaudio==0.2.11
+scipy==1.7.1
+soundfile==0.10.3
+
+opencv-python
+tqdm

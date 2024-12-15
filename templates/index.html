@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Spectrogram Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Initially hide the forms */
+        #convertAudioForm, #uploadSpectrumForm {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Home</a></li>
+            <li><a href="#" onclick="showSection('convertAudioForm')">Convert Audio</a></li>
+            <li><a href="#" onclick="showSection('uploadSpectrumForm')">Upload Spectrogram</a></li>
+        </ul>
+    </nav>
+
+    
+    <!-- Home Section -->
+    <section id="home">
+        <h1>Speech to Spectrogram Converter</h1>
+        <p>Welcome to the Speech to Spectrogram Converter</p>
+    </section>
+
+    <!-- Convert Audio Form -->
+    <section id="convertAudioForm">
+        <h1>Convert Audio to Spectrogram</h1>
+        <form action="/record?section=convertAudioForm" method="post" enctype="multipart/form-data">
+            <label for="audio">Record your Audio:</label>
+            <input type="file" name="audio" id="audio">
+            <button type="submit">Convert to Spectrogram</button>
+        </form>
+        {% if spectrogram_file %}
+        <a href="{{ url_for('download_file', filename=spectrogram_file) }}">Download Spectrogram</a>
+        {% endif %}
+    </section>
+
+    <!-- Upload Spectrogram Form -->
+    <section id="uploadSpectrumForm">
+        <h1>Upload Spectrogram to Convert to Audio</h1>
+        <form action="/upload?section=uploadSpectrumForm" method="post" enctype="multipart/form-data">
+            <label for="file">Upload your Spectrogram:</label>
+            <input type="file" name="file" id="file">
+            <button type="submit">Convert to Audio</button>
+        </form>
+          <!-- Download Links -->
+    {% if audio_file %}
+    <a href="{{ url_for('download_file', filename=audio_file) }}">Download Reconstructed Audio</a>
+    {% endif %}
+
+    </section>
+
+  
+
+   
+
+    <!-- JavaScript for toggling sections -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('convertAudioForm').style.display = 'none';
+            document.getElementById('uploadSpectrumForm').style.display = 'none';
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Get query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Determine which section to show based on query parameters
+        const sectionToShow = getQueryParam('section') || 'home';
+        showSection(sectionToShow);
+    </script>
+</body>
+</html>
